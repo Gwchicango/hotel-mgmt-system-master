@@ -1,0 +1,62 @@
+# Directorios de configuración de IDEs
+.idea/
+.vscode/
+
+# Dependencias de Composer
+vendor/
+composer.lock
+
+# Dependencias de Node.js
+node_modules/
+package-lock.json
+yarn.lock
+
+# Archivos de entorno
+.env
+
+# Archivos de logs
+*.log
+logs/
+log/
+
+# Archivos de caché
+.cache/
+tmp/
+temp/
+
+# Archivos de compilación
+dist/
+build/
+
+# Archivos de cobertura de pruebas
+coverage/
+*.lcov
+
+# Archivos de configuración específicos del sistema operativo
+.DS_Store
+Thumbs.db
+
+# Archivos de configuración de PHPUnit
+phpunit.xml
+phpunit.xml.dist
+
+# Archivos de configuración de Behat
+behat.yml
+behat.yml.dist
+
+# Archivos de configuración de Docker
+docker-compose.yml
+docker-compose.override.yml
+
+# Archivos de configuración de CI/CD
+.circleci/
+.github/
+.gitlab-ci.yml
+
+# Archivos de configuración de herramientas de análisis estático
+phpcs.xml
+phpcs.xml.dist
+phpmd.xml
+phpmd.xml.dist
+phpstan.neon
+phpstan.neon.dist
