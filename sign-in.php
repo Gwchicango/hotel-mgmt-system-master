@@ -11,8 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginSubmitBtn"])) {
     $email = $_POST["loginEmail"];
     $password = $_POST["loginPassword"];
 
-    // Aquí deberías verificar las credenciales del usuario
-    // Este es un ejemplo simple, deberías usar una base de datos y hashing de contraseñas en un entorno real
+
     if ($email == "geor@gmail.com" && $password == "admin") {
         $_SESSION["authenticated"] = "1";
         header("Location: index.php");
