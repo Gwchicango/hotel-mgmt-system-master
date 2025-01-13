@@ -126,13 +126,6 @@ class FeatureContext extends MinkContext implements Context
         $this->visit('/reservation.php');
     }
 
-    /**
-     * @When selecciono :valor en el campo :campo
-     */
-    public function seleccionoEnElCampo($valor, $campo)
-    {
-        $this->selectOption($campo, $valor);
-    }
 
     /**
      * @Then debería ser redirigido a la página de reservas completadas
@@ -167,8 +160,6 @@ class FeatureContext extends MinkContext implements Context
         $link = $page->findLink($enlace);
 
         if (null === $link) {
-            // Imprime el contenido de la página para depuración
-            echo $page->getContent();
             throw new ElementNotFoundException($this->getSession(), 'link', 'text', $enlace);
         }
 
@@ -187,73 +178,69 @@ class FeatureContext extends MinkContext implements Context
         ];
     }
 
-                // ...existing code...
-        
-        /**
-         * @Given I generate the JSON results files
-         */
-        public function iGenerateTheJSONResultsFiles()
-        {
-            $results1 = [
-                'test' => 'result1',
-                'status' => 'passed'
-            ];
-            $results2 = [
-                'test' => 'result2',
-                'status' => 'failed'
-            ];
-        
-            file_put_contents('c:/Git/hotel-mgmt-system-master/results1.json', json_encode($results1));
-            file_put_contents('c:/Git/hotel-mgmt-system-master/results2.json', json_encode($results2));
-        
-            $this->resultsFiles = [
-                'c:/Git/hotel-mgmt-system-master/results1.json',
-                'c:/Git/hotel-mgmt-system-master/results2.json'
-            ];
-        }
-        
-        /**
-         * @When I upload the results to Cucumber for Jira
-         */
-        public function iUploadTheResultsToCucumberForJira()
-        {
-            $url = 'https://c4j.bdd.smartbear.com/ci/rest/api/results';
-            $token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uc21hcnRiZWFyLmN1Y3VtYmVyIiwiYXVkIjoiY2kiLCJjb250ZXh0Ijp7ImxpdmluZ19kb2NfaWQiOjUxMDF9LCJpYXQiOjE3MzY0NDkyMjJ9.9HTv0DYXRNZbfTSflPn67ZfzpwUFjH65z_wa5O06W3Y';
-        
-            $files = [];
-            foreach ($this->resultsFiles as $file) {
-                if (!file_exists($file)) {
-                    throw new Exception("File not found: $file");
-                }
-                $files[] = new CURLFile($file);
+    /**
+     * @Given I generate the JSON results files
+     */
+    public function iGenerateTheJSONResultsFiles()
+    {
+        $results1 = [
+            'test' => 'result1',
+            'status' => 'passed'
+        ];
+        $results2 = [
+            'test' => 'result2',
+            'status' => 'failed'
+        ];
+
+        file_put_contents('c:/Git/hotel-mgmt-system-master/results1.json', json_encode($results1));
+        file_put_contents('c:/Git/hotel-mgmt-system-master/results2.json', json_encode($results2));
+
+        $this->resultsFiles = [
+            'c:/Git/hotel-mgmt-system-master/results1.json',
+            'c:/Git/hotel-mgmt-system-master/results2.json'
+        ];
+    }
+
+    /**
+     * @When I upload the results to Cucumber for Jira
+     */
+    public function iUploadTheResultsToCucumberForJira()
+    {
+        $url = 'https://c4j.bdd.smartbear.com/ci/rest/api/results';
+        $token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjb20uc21hcnRiZWFyLmN1Y3VtYmVyIiwiYXVkIjoiY2kiLCJjb250ZXh0Ijp7ImxpdmluZ19kb2NfaWQiOjUxMDF9LCJpYXQiOjE3MzY0NDkyMjJ9.9HTv0DYXRNZbfTSflPn67ZfzpwUFjH65z_wa5O06W3Y';
+
+        $files = [];
+        foreach ($this->resultsFiles as $file) {
+            if (!file_exists($file)) {
+                throw new Exception("File not found: $file");
             }
-        
-            $postFields = [
-                'results_files[]' => $files,
-                'language' => 'ruby'
-            ];
-        
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_POST, true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                "Authorization: Bearer $token",
-                'Content-Type: multipart/form-data'
-            ]);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        
-            $response = curl_exec($ch);
-            if (curl_errno($ch)) {
-                throw new Exception('Curl error: ' . curl_error($ch));
-            }
-        
-            curl_close($ch);
-        
-            echo "Upload response: $response\n";
+            $files[] = new CURLFile($file);
         }
-        
-        // ...existing code...
+
+        $postFields = [
+            'results_files[]' => $files,
+            'language' => 'ruby'
+        ];
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Authorization: Bearer $token",
+            'Content-Type: multipart/form-data'
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            throw new Exception('Curl error: ' . curl_error($ch));
+        }
+
+        curl_close($ch);
+
+        echo "Upload response: $response\n";
+    }
 
     /**
      * @Then the upload should be successful
